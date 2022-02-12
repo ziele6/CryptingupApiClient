@@ -28,6 +28,7 @@ namespace CryptingupApiClient
         {
 
             services.AddControllers();
+            services.AddHttpClient();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CryptingupApiClient", Version = "v1" });

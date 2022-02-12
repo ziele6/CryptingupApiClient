@@ -2,21 +2,40 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace CryptingupApiClient.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class CryptoController : ControllerBase
     {
+        IHttpClientFactory httpClientFactory;
+
+        public CryptoController(IHttpClientFactory httpClientFactory)
+        {
+            this.httpClientFactory = httpClientFactory;
+        }
+
+
         // GET: api/<CryptoController>
         [HttpGet]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
+        }
+
+        [HttpGet("GetCoinbase")]
+        public async Task<IActionResult> GetCoinbase()
+        {
+            HttpClient client = httpClientFactory.CreateClient();
+            var result = await client.GetAsync("https://www.cryptingup.com/api/exchanges");
+            var content = await result.Content.ReadAsStringAsync();
+
+            return Ok(content);
         }
 
         // GET api/<CryptoController>/5
