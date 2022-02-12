@@ -13,7 +13,7 @@ namespace CryptingupApiClient.Controllers
     [ApiController]
     public class CryptoController : ControllerBase
     {
-        IHttpClientFactory httpClientFactory;
+        private readonly IHttpClientFactory httpClientFactory;
 
         public CryptoController(IHttpClientFactory httpClientFactory)
         {
@@ -32,7 +32,7 @@ namespace CryptingupApiClient.Controllers
         public async Task<IActionResult> GetCoinbase()
         {
             HttpClient client = httpClientFactory.CreateClient();
-            var result = await client.GetAsync("https://www.cryptingup.com/api/exchanges");
+            var result = await client.GetAsync("https://www.cryptingup.com/api/exchanges/COINBASE");
             var content = await result.Content.ReadAsStringAsync();
 
             return Ok(content);
